@@ -2,6 +2,8 @@
 package ui;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.JButton;
 
 public class MainFrame extends javax.swing.JFrame {
     
@@ -9,6 +11,17 @@ public class MainFrame extends javax.swing.JFrame {
 
     private dto.TaiKhoan tk;
     private CardLayout layout;
+    private void highlightButton(JButton activeBtn){
+        Color defaultColor = new Color(240,240,240);
+        Color activeColor = Color.PINK;
+        btnKhoa.setBackground(defaultColor);
+        btnSinhVien.setBackground(defaultColor);
+        btnDiem.setBackground(defaultColor);
+        btnLop.setBackground(defaultColor);
+        btnMonHoc.setBackground(defaultColor);
+        
+        activeBtn.setBackground(activeColor);
+    }
     public MainFrame() {
         initComponents();
         logo.setupIcon(this);
@@ -182,30 +195,35 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnSinhVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSinhVienActionPerformed
         
         layout.show(pnlContent,"cardSinhVien");
+        highlightButton(btnSinhVien);
         pnlContent.revalidate();
         pnlContent.repaint();
     }//GEN-LAST:event_btnSinhVienActionPerformed
 
     private void btnKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhoaActionPerformed
         layout.show(pnlContent,"cardKhoa");
+        highlightButton(btnKhoa);
         pnlContent.revalidate();
         pnlContent.repaint();
     }//GEN-LAST:event_btnKhoaActionPerformed
 
     private void btnDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiemActionPerformed
         layout.show(pnlContent,"cardDiem");
+        highlightButton(btnDiem);
         pnlContent.revalidate();
         pnlContent.repaint();
     }//GEN-LAST:event_btnDiemActionPerformed
 
     private void btnLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLopActionPerformed
         layout.show(pnlContent,"cardLop");
+        highlightButton(btnLop);
         pnlContent.revalidate();
         pnlContent.repaint();
     }//GEN-LAST:event_btnLopActionPerformed
 
     private void btnMonHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonHocActionPerformed
         layout.show(pnlContent,"cardMonHoc");
+        highlightButton(btnMonHoc);
         pnlContent.revalidate();
         pnlContent.repaint();
     }//GEN-LAST:event_btnMonHocActionPerformed
