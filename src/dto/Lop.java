@@ -53,6 +53,6 @@ public class Lop {
     // đưa đối tượng Lop vào ComboBox
     @Override
     public String toString() {
-        return tenLop;
+        return this.tenLop;
     }
 }

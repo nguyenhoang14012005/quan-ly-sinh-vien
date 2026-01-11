@@ -22,8 +22,8 @@ public class SinhVienPanel extends javax.swing.JPanel {
     public SinhVienPanel() {
         initComponents();
         initTable();
-        loadData();
         loadDataComboBox();
+        loadData();
         AutoUpdateHelper.addAutoRefresh(this, ()-> loadDataComboBox());
     }
     //Cấu hình cột cho bảng
@@ -48,13 +48,26 @@ public class SinhVienPanel extends javax.swing.JPanel {
             List<Lop> listLop = lopBUS.getAll();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             for(Lop lop : listLop){
-                model.addElement(lop.getMaLop());
+                model.addElement(lop);
             }
             cboMaLop.setModel(model);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+    
+    //Hàm tìm tên lớp dựa vào mã lớp
+    private String getTenLopByMa(String maLop){
+        if(maLop==null|| cboMaLop.getItemCount() ==0) return "";
+            DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaLop.getModel();
+            for(int i = 0; i< model.getSize();i++){
+                Lop lop = (Lop) model.getElementAt(i);
+                if (lop.getMaLop().equalsIgnoreCase(maLop)){
+                    return lop.getTenLop();
+                }
+            }
+            return maLop;
+        }
     //Đổ danh sách vào bảng
     private void fillTable(List<SinhVien> list){
         model.setRowCount(0); //Xóa dữ liệu cũ
@@ -63,7 +76,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
                 sv.getMaSV(),
                 sv.getTenSV(),
                 sv.getHoSV(),
-                sv.getMaLop(),
+                getTenLopByMa(sv.getMaLop()),
                 sv.getGioiTinh() ? "Nam": "Nữ",
                 sv.getNgaySinh() != null ? dateFormat.format(sv.getNgaySinh()):"",
                 sv.getDienThoai(),
@@ -78,7 +91,8 @@ public class SinhVienPanel extends javax.swing.JPanel {
         sv.setTenSV(txtTenSV.getText().trim());
         sv.setHoSV(txtHoSV.getText().trim()); 
         if(cboMaLop.getSelectedItem()!= null){
-            sv.setMaLop(cboMaLop.getSelectedItem().toString());
+            Lop selectedLop = (Lop) cboMaLop.getSelectedItem();
+            sv.setMaLop(selectedLop.getMaLop());
         }
         sv.setGioiTinh(rdoNam.isSelected());
         sv.setDiaChi(txtDiaChi.getText().trim());
@@ -98,6 +112,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
         }
         return sv;
     }
+    
     // Hiển thị dữ liệu từ dòng chọn lên Form
     private void setModel(int rowIndex) {
         if (rowIndex < 0) return;
@@ -109,7 +124,16 @@ public class SinhVienPanel extends javax.swing.JPanel {
             txtMaSV.setText(sv.getMaSV());
             txtTenSV.setText(sv.getTenSV());
             txtHoSV.setText(sv.getHoSV());
-            cboMaLop.setSelectedItem(sv.getMaLop());            
+            //comboBOx
+            String maLopSV = sv.getMaLop();
+            DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaLop.getModel();
+            for (int i = 0; i<model.getSize(); i++){
+                Lop lop = (Lop) model.getElementAt(i);
+                if(lop.getMaLop().equalsIgnoreCase(maLopSV)){
+                    cboMaLop.setSelectedIndex(i);
+                    break;
+                }
+            }
             if (sv.getGioiTinh()) rdoNam.setSelected(true);
             else rdoNu.setSelected(true);
             
