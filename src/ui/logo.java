@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 public class logo {
-    private static final String LOGO_PATH = "/icons/logo.png";
+    private static final String LOGO_PATH = "/icons/favicon.png";
     
     public static Image getLogo(){
         URL url = logo.class.getResource(LOGO_PATH);
