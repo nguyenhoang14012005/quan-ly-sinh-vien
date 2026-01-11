@@ -11,12 +11,14 @@ public class MainFrame extends javax.swing.JFrame {
     private CardLayout layout;
     public MainFrame() {
         initComponents();
+        logo.setupIcon(this);
         initLayout();
         this.setSize(1000,700);
         this.setLocationRelativeTo(null);
     }
     public MainFrame(dto.TaiKhoan tk){
         initComponents();
+        logo.setupIcon(this);
         this.tk = tk;
         this.setSize(1000,700);
         this.setLocationRelativeTo(null);
