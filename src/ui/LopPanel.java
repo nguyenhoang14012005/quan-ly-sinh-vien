@@ -1,13 +1,13 @@
-
 package ui;
 
 import bus.KhoaBUS;
 import bus.LopBUS;
 import dto.Khoa;
 import dto.Lop;
+
+import java.awt.*;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import helper.AutoUpdateHelper;
 
@@ -18,18 +18,21 @@ public class LopPanel extends javax.swing.JPanel {
     private DefaultTableModel tblModel;
     private List<Khoa> listKhoa;
 
-    
     public LopPanel() {
         initComponents();
-        initTable();        // Cấu hình bảng
-        loadComboBoxKhoa(); // Load dữ liệu vào ComboBox
-        loadData();         // Load dữ liệu lên bảng
-        AutoUpdateHelper.addAutoRefresh(this, ()-> loadComboBoxKhoa());
+        initTable();
+        loadComboBoxKhoa();
+        loadData();
+
+        if(AutoUpdateHelper.class != null) {
+            try {
+                AutoUpdateHelper.addAutoRefresh(this, ()-> loadComboBoxKhoa());
+            } catch(Exception e) {}
+        }
     }
 
-    
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
         jLabelTitle = new javax.swing.JLabel();
@@ -50,18 +53,15 @@ public class LopPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLop = new javax.swing.JTable();
 
-        jLabelTitle.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        jLabelTitle.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 24));
         jLabelTitle.setForeground(new java.awt.Color(51, 102, 255));
         jLabelTitle.setText("Quản Lý Lớp Học");
 
         jPanelInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông Tin Lớp Học", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
         jLabel1.setText("Mã Lớp :");
-
         jLabel2.setText("Tên Lớp :");
-
         jLabel3.setText("Thuộc Khoa :");
-
         jLabel4.setText("CVHT :");
 
         btnThem.setText("Thêm");
@@ -94,41 +94,49 @@ public class LopPanel extends javax.swing.JPanel {
 
         javax.swing.GroupLayout jPanelInputLayout = new javax.swing.GroupLayout(jPanelInput);
         jPanelInput.setLayout(jPanelInputLayout);
+
+
         jPanelInputLayout.setHorizontalGroup(
                 jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanelInputLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
+                                .addGap(30, 30, 30)
+                                // Cột 1: Label Mã & Tên
                                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel1)
                                         .addComponent(jLabel2))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtMaLop)
-                                        .addComponent(txtTenLop, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                                // Cột 2: TextField Mã & Tên
+                                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtMaLop, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtTenLop, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50)
+                                // Cột 3: Label Khoa & CVHT
                                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
                                         .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(txtCVHT)
-                                        .addComponent(cboKhoa, 0, 160, Short.MAX_VALUE))
-                                .addGap(34, 34, 34))
-                        .addGroup(jPanelInputLayout.createSequentialGroup()
-                                .addGap(127, 127, 127)
-                                .addComponent(btnThem)
+                                // Cột 4: ComboBox & TextField CVHT
+                                .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtCVHT, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        // Hàng nút bấm
+                        .addGroup(GroupLayout.Alignment.CENTER, jPanelInputLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnSua)
+                                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnXoa)
+                                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnLamMoi)
+                                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
         jPanelInputLayout.setVerticalGroup(
                 jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanelInputLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
+                                .addGap(20, 20, 20)
                                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
                                         .addComponent(txtMaLop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,24 +148,19 @@ public class LopPanel extends javax.swing.JPanel {
                                         .addComponent(txtTenLop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel4)
                                         .addComponent(txtCVHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(42, 42, 42)
+                                .addGap(30, 30, 30)
                                 .addGroup(jPanelInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(btnThem)
                                         .addComponent(btnSua)
                                         .addComponent(btnXoa)
                                         .addComponent(btnLamMoi))
-                                .addContainerGap(22, Short.MAX_VALUE))
+                                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanelTable.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh Sách Lớp", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
         tblLop.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null}
-                },
+                new Object [][] {},
                 new String [] {
                         "Mã Lớp", "Tên Lớp", "Thuộc Khoa", "CVHT"
                 }
@@ -185,13 +188,14 @@ public class LopPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addContainerGap(28, Short.MAX_VALUE))
+                                        .addComponent(jPanelInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,10 +208,11 @@ public class LopPanel extends javax.swing.JPanel {
                                 .addComponent(jPanelTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>
 
-    
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    // Logic & event
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Lop lop = getModel();
             String msg = lopBUS.addLop(lop);
@@ -219,9 +224,9 @@ public class LopPanel extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
         }
-    }//GEN-LAST:event_btnThemActionPerformed
+    }
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             if (txtMaLop.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn lớp cần sửa!");
@@ -237,9 +242,9 @@ public class LopPanel extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage());
         }
-    }//GEN-LAST:event_btnSuaActionPerformed
+    }
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {
         if (txtMaLop.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn lớp cần xóa!");
             return;
@@ -252,42 +257,21 @@ public class LopPanel extends javax.swing.JPanel {
                 resetForm();
             }
         }
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }
 
-    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {
         resetForm();
         loadData();
-    }//GEN-LAST:event_btnLamMoiActionPerformed
+    }
 
-    private void tblLopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLopMouseClicked
+    private void tblLopMouseClicked(java.awt.event.MouseEvent evt) {
         int row = tblLop.getSelectedRow();
         if (row >= 0) {
             setModel(row);
         }
-    }//GEN-LAST:event_tblLopMouseClicked
+    }
 
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLamMoi;
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<Khoa> cboKhoa;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabelTitle;
-    private javax.swing.JPanel jPanelInput;
-    private javax.swing.JPanel jPanelTable;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblLop;
-    private javax.swing.JTextField txtCVHT;
-    private javax.swing.JTextField txtMaLop;
-    private javax.swing.JTextField txtTenLop;
-    // End of variables declaration//GEN-END:variables
-
-    // --- CÁC HÀM LOGIC HỖ TRỢ (PRIVATE) ---
+    // Helper
 
     private void initTable() {
         tblModel = new DefaultTableModel();
@@ -300,7 +284,7 @@ public class LopPanel extends javax.swing.JPanel {
             listKhoa = khoaBUS.getAll();
             DefaultComboBoxModel<Khoa> cboModel = new DefaultComboBoxModel<>();
             for (Khoa k : listKhoa) {
-                cboModel.addElement(k); // Hiển thị toString() của Khoa
+                cboModel.addElement(k);
             }
             cboKhoa.setModel(cboModel);
         } catch (Exception e) {
@@ -308,7 +292,6 @@ public class LopPanel extends javax.swing.JPanel {
         }
     }
 
-    // Hàm phụ: Lấy tên Khoa từ Mã Khoa để hiển thị lên bảng
     private String getTenKhoa(String maKhoa) {
         if (listKhoa != null) {
             for (Khoa k : listKhoa) {
@@ -357,7 +340,6 @@ public class LopPanel extends javax.swing.JPanel {
         txtMaLop.setText(tblLop.getValueAt(rowIndex, 0).toString());
         txtTenLop.setText(tblLop.getValueAt(rowIndex, 1).toString());
 
-        // Logic chọn lại ComboBox dựa trên Tên Khoa hiển thị ở bảng
         String tenKhoaTable = tblLop.getValueAt(rowIndex, 2).toString();
         for (int i = 0; i < cboKhoa.getItemCount(); i++) {
             Khoa k = cboKhoa.getItemAt(i);
@@ -371,7 +353,6 @@ public class LopPanel extends javax.swing.JPanel {
         txtCVHT.setText(cvht != null ? cvht.toString() : "");
 
         txtMaLop.setEditable(false);
-        btnThem.setEnabled(false);
     }
 
     private void resetForm() {
@@ -381,7 +362,26 @@ public class LopPanel extends javax.swing.JPanel {
         if(cboKhoa.getItemCount() > 0) cboKhoa.setSelectedIndex(0);
 
         txtMaLop.setEditable(true);
-        btnThem.setEnabled(true);
         tblLop.clearSelection();
     }
+
+    // Variables declaration - do not modify
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
+    private javax.swing.JComboBox<Khoa> cboKhoa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JPanel jPanelInput;
+    private javax.swing.JPanel jPanelTable;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblLop;
+    private javax.swing.JTextField txtCVHT;
+    private javax.swing.JTextField txtMaLop;
+    private javax.swing.JTextField txtTenLop;
+    // End of variables declaration
 }
