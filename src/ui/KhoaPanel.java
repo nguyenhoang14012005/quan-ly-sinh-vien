@@ -80,7 +80,7 @@ public class KhoaPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Điện Thoại :");
 
-        jLabel6.setText("Trường Khoa :");
+        jLabel6.setText("Trưởng Khoa :");
 
         txtMaKhoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
