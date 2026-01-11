@@ -2,7 +2,6 @@ package bus;
 
 import dao.LopDAO;
 import dto.Lop;
-
 import java.util.List;
 
 public class LopBUS {
@@ -11,17 +10,32 @@ public class LopBUS {
 
     /**
      * Lấy danh sách tất cả các lớp
+     * (Đã sửa tên từ getAllLop -> getAll để khớp với SinhVienPanel)
      */
-    public List<Lop> getAllLop() {
+    public List<Lop> getAll() {
         return lopDAO.getAll();
     }
 
     /**
+     * Lấy thông tin chi tiết 1 lớp theo Mã (Dùng để check hoặc hiển thị)
+     * (BỔ SUNG THÊM)
+     */
+    public Lop getById(String maLop) {
+        return lopDAO.getById(maLop);
+    }
+
+    /**
      * Lấy danh sách lớp theo Khoa
-     * (Dùng khi chọn Khoa trên giao diện -> Load lại combobox Lớp)
      */
     public List<Lop> getLopByKhoa(String maKhoa) {
         return lopDAO.getByKhoa(maKhoa);
+    }
+    
+    /**
+     * Tìm kiếm lớp theo tên (BỔ SUNG CHO TƯƠNG LAI)
+     */
+    public List<Lop> searchLop(String keyword) {
+        return lopDAO.search(keyword);
     }
 
     /**
@@ -35,10 +49,6 @@ public class LopBUS {
 
         if (lop.getMaKhoa().isEmpty()) {
             return "Vui lòng chọn Khoa trực thuộc!";
-        }
-
-        if (lop.getCVHT().isEmpty()) {
-            return "Vui lòng nhập tên Cố vấn học tập (CVHT)!";
         }
 
         // 2. Kiểm tra trùng mã
@@ -60,10 +70,7 @@ public class LopBUS {
         if (lop.getTenLop().isEmpty()) {
             return "Tên lớp không được để trống!";
         }
-        if (lop.getCVHT().isEmpty()) {
-            return "Vui lòng nhập tên Cố vấn học tập (CVHT)!";
-        }
-
+        
         if (lopDAO.update(lop)) {
             return "Cập nhật thành công!";
         }
@@ -74,10 +81,10 @@ public class LopBUS {
      * Xóa lớp
      */
     public String deleteLop(String maLop) {
-        // Lưu ý: Nếu lớp đã có sinh viên, SQL sẽ chặn xóa (Ràng buộc khóa ngoại FK_SV_Lop)
+        // Lưu ý: SQL sẽ chặn xóa nếu lớp đang có sinh viên (Foreign Key)
         if (lopDAO.delete(maLop)) {
             return "Xóa thành công!";
         }
-        return "Xóa thất bại! (Lớp đang có sinh viên theo học hoặc lỗi hệ thống)";
+        return "Không thể xóa! (Lớp đang có sinh viên hoặc lỗi hệ thống)";
     }
 }

@@ -28,8 +28,7 @@ public class LopDAO {
                 lop.setMaLop(rs.getString("MaLop"));
                 lop.setMaKhoa(rs.getString("MaKhoa"));
                 lop.setTenLop(rs.getString("TenLop"));
-                lop.setCVHT(rs.getString("CVHT")); // Cột mới: Cố vấn học tập
-
+                lop.setCVHT(rs.getString("CVHT"));
                 list.add(lop);
             }
         } catch (SQLException e) {
@@ -39,8 +38,33 @@ public class LopDAO {
     }
 
     /**
+     * [MỚI] Lấy thông tin chi tiết 1 lớp theo Mã
+     * (Hàm này rất quan trọng để hiển thị thông tin khi click vào bảng)
+     */
+    public Lop getById(String maLop) {
+        String sql = "SELECT * FROM tblLop WHERE MaLop = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, maLop);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Lop lop = new Lop();
+                    lop.setMaLop(rs.getString("MaLop"));
+                    lop.setMaKhoa(rs.getString("MaKhoa"));
+                    lop.setTenLop(rs.getString("TenLop"));
+                    lop.setCVHT(rs.getString("CVHT"));
+                    return lop;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Không tìm thấy
+    }
+
+    /**
      * 2. Lấy danh sách lớp theo Khoa
-     * (Phục vụ chức năng lọc: Chọn Khoa -> Hiện các lớp của khoa đó)
      */
     public List<Lop> getByKhoa(String maKhoa) {
         List<Lop> list = new ArrayList<>();
@@ -50,6 +74,36 @@ public class LopDAO {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, maKhoa);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Lop lop = new Lop();
+                    lop.setMaLop(rs.getString("MaLop"));
+                    lop.setMaKhoa(rs.getString("MaKhoa"));
+                    lop.setTenLop(rs.getString("TenLop"));
+                    lop.setCVHT(rs.getString("CVHT"));
+                    list.add(lop);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    /**
+     * [MỚI] Tìm kiếm lớp theo Mã hoặc Tên
+     */
+    public List<Lop> search(String keyword) {
+        List<Lop> list = new ArrayList<>();
+        String sql = "SELECT * FROM tblLop WHERE MaLop LIKE ? OR TenLop LIKE ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String searchPattern = "%" + keyword + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -91,7 +145,6 @@ public class LopDAO {
      * 4. Cập nhật thông tin lớp
      */
     public boolean update(Lop lop) {
-        // Cập nhật tên lớp, CVHT và cả Mã Khoa (phòng trường hợp lớp chuyển khoa)
         String sql = "UPDATE tblLop SET MaKhoa=?, TenLop=?, CVHT=? WHERE MaLop=?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -99,7 +152,6 @@ public class LopDAO {
             ps.setString(1, lop.getMaKhoa());
             ps.setString(2, lop.getTenLop());
             ps.setString(3, lop.getCVHT());
-            // Điều kiện WHERE
             ps.setString(4, lop.getMaLop());
 
             return ps.executeUpdate() > 0;
@@ -111,7 +163,6 @@ public class LopDAO {
 
     /**
      * 5. Xóa lớp
-     * Lưu ý: Nếu lớp đã có sinh viên, SQL sẽ chặn xóa (FK_SV_Lop)
      */
     public boolean delete(String maLop) {
         String sql = "DELETE FROM tblLop WHERE MaLop=?";
