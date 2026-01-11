@@ -48,7 +48,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
             List<Lop> listLop = lopBUS.getAll();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             for(Lop lop : listLop){
-                model.addElement(lop.getTenLop());
+                model.addElement(lop.getMaLop());
             }
             cboMaLop.setModel(model);
         }catch(Exception e){
