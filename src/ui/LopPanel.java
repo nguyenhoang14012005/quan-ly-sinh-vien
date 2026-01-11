@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import helper.AutoUpdateHelper;
 
 public class LopPanel extends javax.swing.JPanel {
 
@@ -24,6 +24,7 @@ public class LopPanel extends javax.swing.JPanel {
         initTable();        // Cấu hình bảng
         loadComboBoxKhoa(); // Load dữ liệu vào ComboBox
         loadData();         // Load dữ liệu lên bảng
+        AutoUpdateHelper.addAutoRefresh(this, ()-> loadComboBoxKhoa());
     }
 
     
