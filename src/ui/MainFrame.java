@@ -27,6 +27,7 @@ public class MainFrame extends javax.swing.JFrame {
         logo.setupIcon(this);
         initLayout();
         this.setSize(1000,700);
+        this.setTitle("HỆ THỐNG QUẢN LÝ SINH VIÊN");
         this.setLocationRelativeTo(null);
     }
     public MainFrame(dto.TaiKhoan tk){
