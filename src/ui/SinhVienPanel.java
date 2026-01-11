@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DefaultComboBoxModel;
+import helper.AutoUpdateHelper;
 
 public class SinhVienPanel extends javax.swing.JPanel {
     private SinhVienBUS svBUS = new SinhVienBUS();
@@ -23,6 +24,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
         initTable();
         loadData();
         loadDataComboBox();
+        AutoUpdateHelper.addAutoRefresh(this, ()-> loadDataComboBox());
     }
     //Cấu hình cột cho bảng
     private void initTable(){
@@ -41,7 +43,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
                     "Lỗi tải dữ liệu: " + e.getMessage());
         }
     }
-    private void loadDataComboBox(){
+    public void loadDataComboBox(){
         try{
             List<Lop> listLop = lopBUS.getAll();
             DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -386,11 +388,12 @@ public class SinhVienPanel extends javax.swing.JPanel {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addComponent(cboMaLop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(cboMaLop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
