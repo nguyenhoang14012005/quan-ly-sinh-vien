@@ -29,7 +29,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
     //Cấu hình cột cho bảng
     private void initTable(){
         model = new DefaultTableModel();
-        String[] columns = {"Mã SV","Tên SV","Họ SV","Lớp","Giới Tính","Ngày sinh","SDT","Email","Địa chỉ"};
+        String[] columns = {"Mã SV","Họ SV","Tên SV","Lớp","Giới Tính","Ngày sinh","SDT","Email","Địa chỉ"};
         model.setColumnIdentifiers(columns);
         tblSinhVien.setModel(model);
     }
@@ -74,8 +74,8 @@ public class SinhVienPanel extends javax.swing.JPanel {
         for(SinhVien sv: list){
             model.addRow(new Object[]{
                 sv.getMaSV(),
-                sv.getTenSV(),
                 sv.getHoSV(),
+                sv.getTenSV(),
                 getTenLopByMa(sv.getMaLop()),
                 sv.getGioiTinh() ? "Nam": "Nữ",
                 sv.getNgaySinh() != null ? dateFormat.format(sv.getNgaySinh()):"",
@@ -88,8 +88,8 @@ public class SinhVienPanel extends javax.swing.JPanel {
     private SinhVien getModel() throws Exception{
         SinhVien sv = new SinhVien();
         sv.setMaSV(txtMaSV.getText().trim());
+        sv.setHoSV(txtHoSV.getText().trim());
         sv.setTenSV(txtTenSV.getText().trim());
-        sv.setHoSV(txtHoSV.getText().trim()); 
         if(cboMaLop.getSelectedItem()!= null){
             Lop selectedLop = (Lop) cboMaLop.getSelectedItem();
             sv.setMaLop(selectedLop.getMaLop());
@@ -122,8 +122,8 @@ public class SinhVienPanel extends javax.swing.JPanel {
         
         if (sv != null) {
             txtMaSV.setText(sv.getMaSV());
-            txtTenSV.setText(sv.getTenSV());
             txtHoSV.setText(sv.getHoSV());
+            txtTenSV.setText(sv.getTenSV());
             //comboBOx
             String maLopSV = sv.getMaLop();
             DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaLop.getModel();
@@ -148,14 +148,15 @@ public class SinhVienPanel extends javax.swing.JPanel {
     private void clearForm() {
         txtMaSV.setText("");
         txtMaSV.setEditable(true);
-        txtTenSV.setText("");
         txtHoSV.setText("");
+        txtTenSV.setText("");
         if(cboMaLop.getItemCount()>0){
             cboMaLop.setSelectedItem(0);
         }
         txtNgaySinh.setText("");
         txtDiaChi.setText("");
         txtSDT.setText("");
+        txtEmail.setText("");
         rdoNam.setSelected(true);
         tblSinhVien.clearSelection();
     }
@@ -316,7 +317,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã SV", "Tên SV", "Họ SV", "Lớp", "Giới tính", "Ngày sinh", "SDT", "Email", "Địa chỉ"
+                "Mã SV", "Họ SV", "Tên SV", "Lớp", "Giới tính", "Ngày sinh", "SDT", "Email", "Địa chỉ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -347,17 +348,17 @@ public class SinhVienPanel extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtHoSV, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                    .addComponent(txtTenSV))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTenSV, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtHoSV, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(110, 110, 110)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -399,18 +400,17 @@ public class SinhVienPanel extends javax.swing.JPanel {
                     .addComponent(jLabel7)
                     .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTenSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8)
-                        .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtHoSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtHoSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel3)
+                    .addComponent(txtTenSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
