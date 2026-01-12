@@ -25,6 +25,8 @@ public class SinhVienBUS {
      * Lấy danh sách sinh viên theo Lớp
      */
     public List<SinhVien> getSinhVienByLop(String maLop) {
+        // Nếu chọn "Tất cả" (ví dụ mã rỗng) thì gọi hàm getAll()
+    if (maLop == null || maLop.isEmpty()) return getAll();
         return sinhVienDAO.getByLop(maLop);
     }
 

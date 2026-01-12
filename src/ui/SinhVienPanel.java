@@ -168,6 +168,7 @@ public class SinhVienPanel extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnXuatExcel = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -204,6 +205,13 @@ public class SinhVienPanel extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(0, 102, 255));
         jLabel1.setText("Quản Lý Sinh Viên");
 
+        btnXuatExcel.setText("Xuất Excel");
+        btnXuatExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -211,14 +219,18 @@ public class SinhVienPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(495, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
+                .addComponent(btnXuatExcel)
+                .addGap(129, 129, 129))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnXuatExcel))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -336,6 +348,11 @@ public class SinhVienPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblSinhVien);
 
         cboMaLop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboMaLop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboMaLopActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -511,12 +528,47 @@ public class SinhVienPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblSinhVienMouseClicked
 
+    private void btnXuatExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcelActionPerformed
+        // Lấy tên lớp để làm tên file cho đẹp (nếu đang chọn lớp)
+    String tenFile = "DS_SinhVien";
+    String tieuDe = "DANH SÁCH SINH VIÊN";
+
+    // Nếu có chọn lớp trong combobox thì thêm tên lớp vào
+    if (cboMaLop.getSelectedItem() != null) {
+        dto.Lop lop = (dto.Lop) cboMaLop.getSelectedItem();
+        tenFile += "_" + lop.getMaLop();
+        tieuDe += " - LỚP: " + lop.getTenLop().toUpperCase();
+    }
+
+    // GỌI 1 DÒNG LÀ XONG:
+    helper.ExcelHelper.export(tblSinhVien, tenFile, tieuDe);
+    }//GEN-LAST:event_btnXuatExcelActionPerformed
+
+    private void cboMaLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaLopActionPerformed
+       try {
+        // Lấy đối tượng lớp đang chọn
+        if (cboMaLop.getSelectedItem() != null) {
+            Lop selectedLop = (Lop) cboMaLop.getSelectedItem();
+            String maLop = selectedLop.getMaLop();
+            
+            // Gọi BUS lấy danh sách theo lớp
+            List<SinhVien> list = svBUS.getSinhVienByLop(maLop);
+            
+            // Đổ lại vào bảng
+            fillTable(list);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }    
+    }//GEN-LAST:event_cboMaLopActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JButton btnXuatExcel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboMaLop;
     private javax.swing.JLabel jLabel1;

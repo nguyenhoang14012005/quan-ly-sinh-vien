@@ -43,7 +43,7 @@ public class SinhVienDAO {
             e.printStackTrace();
         }
         return list;
-    }
+    }   
 //    thêm sinh viên mới
     public boolean insert(SinhVien sv) {
         String sql = "INSERT INTO tblSinhVien "
